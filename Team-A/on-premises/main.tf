@@ -27,15 +27,33 @@ module "virtual_network" {
   vnet_name           = var.vnet_name
   vnet_address_space  = var.vnet_address_space
   subnets             = var.subnets
+  depends_on = [ module.resource_group ]
 }
 
-# module "linux_vm" {
-#   source              = "./modules/linuxvm"
-#   resource_group_name = module.resource_group.resource_group_name
-#   location            = module.resource_group.resource_group_location
-#   vm_name             = var.vm_name
-#   subnet_id           = module.virtual_network.subnet_ids
-#   admin_username      = var.admin_username
-#   admin_ssh_key       = var.admin_ssh_key
-  
-# }
+module "public_ip" {
+  source = "./modules/public_ip"
+  for_each = var.public_ip
+  name                = each.value.name
+  location            = module.resource_group.resource_group_location
+  resource_group_name = module.resource_group.resource_group_name
+  allocation_method   = each.value.allocation_method
+  sku                 = each.value.sku
+  depends_on = [ module.resource_group ]
+}
+
+module "linux_vm" {
+  source              = "./modules/linuxvm"
+  for_each = var.on_premises_vms
+  name                = each.key
+  location            = module.resource_group.resource_group_location
+  resource_group_name = module.resource_group.resource_group_name
+  subnet_id           = module.virtual_network.subnet_ids["workload"]
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
+  public_ip_id        = module.public_ip[each.key].id
+  image_publisher     = each.value.image_publisher
+  image_offer         = each.value.image_offer
+  image_sku           = each.value.image_sku
+  depends_on = [ module.virtual_network , module.public_ip ]
+}
+
