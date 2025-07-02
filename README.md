@@ -37,7 +37,7 @@ The infrastructure includes networking, virtual machines, PostgreSQL, private en
 - VPN Gateway and VNet peering enable secure communication.
 
 ## 🗂 Repository Structure
-
+```
 .
 ├── Images/
 │   └── linux.png                  # Architecture diagram
@@ -56,12 +56,13 @@ The infrastructure includes networking, virtual machines, PostgreSQL, private en
 │   └── spoke/                    # Spoke network and services
 ├── .gitignore
 └── README.md                     # Project documentation
+```
 
 ## 🧪 Usage
 - 1.Clone the repo:
 ```
-git clone <your-repo-url>
-cd <repo-name>
+git clone <https://github.com/fahimabarveen/Migrate-Linux-workloads-to-Azure.git>
+cd Migrate-Linux-workloads-to-Azure
 ```
 
 - 2.Navigate to the appropriate environment under Team-A/ (e.g., hub, spoke, or on-premises).
