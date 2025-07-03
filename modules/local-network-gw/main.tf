@@ -7,10 +7,7 @@ resource "azurerm_local_network_gateway" "lng" {
  
   address_space = var.address_space
  
-  bgp_settings {
-    asn = var.bgp_asn
-    bgp_peering_address = var.bgp_peering_address
-  }
+  
  
   
 }

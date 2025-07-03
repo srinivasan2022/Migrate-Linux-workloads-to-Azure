@@ -36,3 +36,9 @@ variable "VpnGW" {
     ip_config_name                = string
   }))
 }
+
+variable "admin_password" {
+  type        = string
+  
+  sensitive   = true
+}

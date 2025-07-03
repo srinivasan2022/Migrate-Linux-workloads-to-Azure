@@ -56,3 +56,62 @@ module "gateway" {
   depends_on = [ data.azurerm_resource_group.rg,module.public_ip,module.virtual-network ]
   
 }
+
+data "azurerm_virtual_network" "onprem" {
+  name = "vnet-onpremises"
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+
+data "azurerm_public_ip" "onprem-gw" {
+  name = "public-ip-gateway"
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+module "local-network-onprem-gw" {
+  source = "../../modules/local-network-gw"
+  name = "on-prem-lgw"
+  location = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  gateway_address = data.azurerm_public_ip.onprem-gw.ip_address
+  address_space = [data.azurerm_virtual_network.onprem.address_space[0]]
+
+  depends_on = [ data.azurerm_resource_group.rg,data.azurerm_virtual_network.onprem, data.azurerm_public_ip.onprem-gw ]
+}
+
+module "local-network-hub-gw" {
+  source = "../../modules/local-network-gw"
+  name = "hub-lgw"
+  location = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  gateway_address = module.public_ip["GatewaySubnet"].ip_address
+  address_space = [module.virtual-network.vnet_address_space[0]]
+
+  depends_on = [ data.azurerm_resource_group.rg,module.virtual-network, module.public_ip ]
+}
+
+data "azurerm_virtual_network_gateway" "hub-gateway" {
+  name = "on-prem-gw"
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+module "vpn-connection-onprem-hub" {
+  source = "../../modules/vpn-connection"
+  name = "onprem-hub-vpn-connection"
+  location = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  local_gateway_id = module.local-network-onprem-gw.local_gateway_id
+  vnet_gateway_id = data.azurerm_virtual_network_gateway.hub-gateway.id
+  shared_key = var.admin_password
+
+  depends_on = [ data.azurerm_resource_group.rg, module.local-network-onprem-gw, data.azurerm_virtual_network_gateway.hub-gateway ]
+}
+
+module "vpn-connection-hub-onprem" {
+  source = "../../modules/vpn-connection"
+  name = "hub-onprem-vpn-connection"
+  location = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  local_gateway_id = module.local-network-hub-gw.local_gateway_id
+  vnet_gateway_id = module.gateway["hub-vpngw"].vpn_gateway_id
+  shared_key = var.admin_password
+
+  depends_on = [ data.azurerm_resource_group.rg, module.local-network-hub-gw,module.gateway ]
+}

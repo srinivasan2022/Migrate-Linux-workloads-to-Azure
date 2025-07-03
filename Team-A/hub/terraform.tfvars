@@ -41,8 +41,10 @@ public_ip = {
 
 
 VpnGW={
-  "on-prem-gw" ={
+  "hub-vpngw" ={
      private_ip_address_allocation       = "Dynamic"
      ip_config_name        ="onprem_ip_config"
   }
 }
+
+admin_password = "P@ssword123"  # Ensure this is secure and meets your organization's password policy
