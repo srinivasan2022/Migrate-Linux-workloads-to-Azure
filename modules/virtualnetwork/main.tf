@@ -10,7 +10,7 @@ resource "azurerm_virtual_network" "vnet" {
  
     content {
       name           = subnet.key
-      address_prefixes  = cidrsubnet(var.vnet_address_space, subnet.value.newbits, subnet.value.subnetnum)
+      address_prefix  = cidrsubnet(var.vnet_address_space, subnet.value.newbits, subnet.value.subnetnum)
     }
   }
 }
