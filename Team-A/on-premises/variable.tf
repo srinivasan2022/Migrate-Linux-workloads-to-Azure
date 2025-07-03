@@ -26,34 +26,42 @@ variable "subnets" {
   }))
 }
 
-# variable "public_ip" {
-#   description = "Map of public IP configurations"
-#   type = map(object({
-#     name                = string
-#     allocation_method   = string
-#     sku                 = string
-#   }))
-# }
+variable "public_ip" {
+  description = "Map of public IP configurations"
+  type = map(object({
+    name                = string
+    allocation_method   = string
+    sku                 = string
+  }))
+}
 
-# variable on_premises_vms {
-#   description = "Map of on-premises VM configurations"
-#   type = object({
-#     vm_size              = string
-#     image_publisher      = string
-#     image_offer          = string
-#     image_sku            = string
-#   })
-# }
+variable "on_premises_vms" {
+  description = "Map of on-premises VM configurations"
+  type = map(object({
+    vm_size         = string
+    image_publisher = string
+    image_offer     = string
+    image_sku       = string
+    image_version   = string
+  }))
+}
 
-# variable "admin_username" {
-#   type        = string
-#   description = "Admin username for the VMs"
+variable "admin_username" {
+  type        = string
+  description = "Admin username for the VMs"
 
-# }
+}
 
-# variable "admin_password" {
-#   type        = string
-#   description = "Admin password for the VMs"
-#   sensitive   = true
-# }
+variable "admin_password" {
+  type        = string
+  description = "Admin password for the VMs"
+  sensitive   = true
+}
 
+variable "VpnGW" {
+  description = "Map of on-premises VM configurations"
+  type = map(object({
+    private_ip_address_allocation = string
+    ip_config_name                = string
+  }))
+}

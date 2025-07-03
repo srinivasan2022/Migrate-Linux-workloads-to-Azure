@@ -21,7 +21,7 @@ variable "public_ip_id" {
 
 variable "vm_size" {
   type    = string
-  default = "Standard_B1s"
+ 
 }
 
 variable "admin_username" {

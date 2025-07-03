@@ -36,5 +36,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     offer     = var.image_offer
     sku       = var.image_sku
     version   = var.image_version
+
   }
+  depends_on = [ azurerm_network_interface.nic ]
 }
