@@ -1,0 +1,4 @@
+name,priority,direction,access,protocol,source_port_range,destination_port_range,source_address_prefix,destination_address_prefix
+Allow-SSH,100,Inbound,Allow,TCP,* ,22,* ,*
+Allow-HTTP,110,Inbound,Allow,TCP,* ,80,* ,*
+Allow-Postgres,120,Inbound,Allow,TCP,* ,5432,* ,*

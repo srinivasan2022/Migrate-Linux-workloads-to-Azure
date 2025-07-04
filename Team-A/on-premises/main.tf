@@ -30,6 +30,23 @@ module "virtual-network" {
   depends_on = [ module.resource-group ]
 }
 
+module "nsg" {
+  source = "../../modules/nsg"
+  name                = "${module.virtual-network.vnet_name}-nsg"
+  location            = module.resource-group.resource_group_location
+  resource_group_name = module.resource-group.resource_group_name
+  rules_file          = "${Team-A/on-premises}/rules.csv"
+  depends_on = [ module.resource-group , module.virtual-network ]
+}
+
+module "nsg-associate" {
+  source = "../../modules/nsg-associate"
+  nsg_id   = module.nsg.nsg_id
+  subnet_id = module.virtual-network.subnet_ids["workload"]
+  depends_on = [ module.virtual-network , module.nsg ]
+  
+}
+
 module "public_ip" {
   source = "../../modules/public-ip"
   for_each = var.public_ip

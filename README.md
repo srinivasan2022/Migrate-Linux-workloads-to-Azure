@@ -1,12 +1,12 @@
 # Azure Hub and Spoke Architecture – Linux Server Migration
 
 ## 📘 Project Overview
-This Terraform project implements a Hub and Spoke architecture on Azure to support the migration of a Linux server (from on-premises) to Azure, using modular infrastructure-as-code (IaC) design principles.
+This Terraform project implements a Hub and Spoke architecture on Azure to support the [migration of a Linux server](https://microsoft.github.io/TechExcel-Migrate-Linux-workloads/) (from on-premises) to Azure, using modular infrastructure-as-code (IaC) design principles.
 The infrastructure includes networking, virtual machines, PostgreSQL, private endpoints, and secure connectivity across different virtual networks.
 
 ## 📌 Architecture Diagram
 
-![Linux-Migrate](Images/linux.png)
+![Linux-Migrate](Images/linux-mig.png)
 
 ## 🔹 VNet Configuration:
 - OnPrem-VNet (10.0.0.0/16)

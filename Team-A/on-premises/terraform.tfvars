@@ -38,17 +38,17 @@ public_ip = {
 on_premises_vms = {
   "workload" = {
     vm_size              = "Standard_B1s"
-    image_publisher      = "Canonical"
-    image_offer          = "0001-com-ubuntu-server-focal"
-    image_sku            = "20_04-lts"
+    image_publisher      = "RedHat"
+    image_offer          = "RHEL"
+    image_sku            = "8"
     image_version   = "latest"
   } ,
   "app" = {
     vm_size              = "Standard_B1s"
-    image_publisher      = "Canonical"
-    image_offer          = "0001-com-ubuntu-server-focal"
-    image_sku            = "20_04-lts"
-    image_version   = "latest"
+    image_publisher      = "RedHat"
+    image_offer          = "RHEL"
+    image_sku            = "8"
+    image_version       = "latest"
   }
 }
 admin_username = "azureuser"
